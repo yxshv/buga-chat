@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import theme from '../theme'
@@ -6,7 +6,9 @@ import theme from '../theme'
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <ChakraProvider theme={theme}>
-            <Component {...pageProps} />
+            <ColorModeProvider>
+                <Component {...pageProps} />
+            </ColorModeProvider>
         </ChakraProvider>
     )
 }

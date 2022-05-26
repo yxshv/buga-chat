@@ -8,7 +8,8 @@ const theme = extendTheme({
                 bg : mode('white', 'gray.800')(props)
             }
         })
-    }
+    },
+    initialColorMode : 'dark'
 })
 
 export default theme;
