@@ -95,8 +95,8 @@ const ChatBox = () => {
             display="flex"
             bg="gray.600"
             h='70vh'
-            w='50vw'
             borderRadius='xl'
+            w='100%'
             flexDir='column'
         >
             <Box

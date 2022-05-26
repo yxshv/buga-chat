@@ -1,27 +1,51 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import ChatBox from "../components/ChatBox";
+import Details from "../components/Details";
 
 const Home : NextPage = () => {
 
     return (
         <Box
             display='flex'
-            width='100vw'
             height='100vh'
             gap={10}
+            mx='0'
             alignItems='center'
             flexDir='column'
         >
-            <Heading 
-                color="teal.300"
-                size="4xl"
-                my='4'
+            <Box
+                mt={5}
+                display='flex'
+                flexDir='column'
+                justifyContent='center'
+                alignItems='center'
+                gap={3}
             >
-                Buga Chat
-            </Heading>
+                <Heading 
+                    color="teal.300"
+                    size="4xl"
+                >
+                    Buga Chat
+                </Heading>
+                <Text color="teal.400">
+                    Completely Anounymous chat app
+                </Text>
+            </Box>
 
-            <ChatBox />
+            <Box
+                px={{
+                    base : '10vw',
+                    md : '15vw',
+                    lg : '20vw',
+                    xl : '25vw'
+                }}
+                w='100%'
+            >
+                <ChatBox />
+            </Box>
+            
+            <Details />
 
         </Box>
     )
