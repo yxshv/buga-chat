@@ -6,7 +6,7 @@ import {
     InputGroup,
     InputRightElement
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineSend } from 'react-icons/ai';
 import { BACKEND } from "../backend";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
@@ -27,8 +27,9 @@ const ChatBox = () => {
 
     const [messages, setMessages] = useState<Messages>({});
     const [msg, setMsg] = useState<string>('');
+    const DiV = useRef<any>(null);
 
-    const { sendMessage, lastMessage, readyState} = useWebSocket(`wss://${BACKEND}/ws`);
+    const { sendMessage, lastMessage, readyState} = useWebSocket(`ws://${BACKEND}/ws`);
 
     function deleteMessage(id:string) {
         setMessages((prev) => {
@@ -52,7 +53,12 @@ const ChatBox = () => {
                 [id]: m
             }
         });
+        console.log(DiV.current.scrollHeight)
     }
+
+    useEffect(() => {
+        DiV.current.scrollTop = DiV.current.scrollHeight;
+    },[messages])
      
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
@@ -116,6 +122,7 @@ const ChatBox = () => {
                 flexDir='column'
                 gap={2}
                 overflow='auto'
+                ref={DiV}
             >
 
                 {Object.keys(messages).map(
