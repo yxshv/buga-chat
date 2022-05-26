@@ -29,7 +29,7 @@ yarn start
 ```
 
 ### Contributing
-
+Feel free to contribute
 ### License
 This project is licensed under the MIT license
 ### Show your support

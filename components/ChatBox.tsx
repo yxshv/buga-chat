@@ -12,7 +12,12 @@ import { BACKEND } from "../backend";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 interface Messages {
-    [key: string]: string;
+    [key: string]: msg;
+}
+
+interface msg {
+    byU : boolean;
+    content : string;
 }
 
 const banned_words = [
@@ -39,7 +44,7 @@ const ChatBox = () => {
         })
     }
 
-    const newMessage = (m : string) => {
+    const newMessage = (m : string, byU : boolean) => {
         setMessages((prev : Messages) => {
             let id = getUID();
             while (prev[id] !== undefined || prev[id] !== undefined) {
@@ -50,16 +55,18 @@ const ChatBox = () => {
             }, 1000 * 60)
             return {
                 ...prev,
-                [id]: m
+                [id]: {
+                    byU,
+                    content : m
+                }
             }
         });
-        console.log(DiV.current.scrollHeight)
     }
 
     useEffect(() => {
         DiV.current.scrollTop = DiV.current.scrollHeight;
     },[messages])
-     
+
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
         [ReadyState.OPEN]: 'Open',
@@ -68,9 +75,10 @@ const ChatBox = () => {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
+
     useEffect(() => {
         if (lastMessage !== undefined || lastMessage !== null) {
-            const newMessage = (m : string) => {
+            const huh = function (m : string) {
                 setMessages((prev : Messages) => {
                     let id = getUID();
                     while (prev[id] !== undefined || prev[id] !== undefined) {
@@ -81,16 +89,19 @@ const ChatBox = () => {
                     }, 1000 * 60)
                     return {
                         ...prev,
-                        [id]: m
+                        [id]: {
+                            byU : false,
+                            content : m
+                        }
                     }
                 });
+                (new Audio('ping.mp3')).play();
             }
-            newMessage(lastMessage?.data);
+            huh(lastMessage?.data);
         }
     },[lastMessage])
     
     function Send() {
-        console.log(connectionStatus)
         if (msg.length < 1 || connectionStatus !== 'Open' || msg === undefined || msg === null) return
         
         for (const a in banned_words) {
@@ -100,7 +111,7 @@ const ChatBox = () => {
             }
         }
         sendMessage(msg);
-        newMessage(msg);
+        newMessage(msg, true);
         setMsg('')
     }
 
@@ -128,6 +139,8 @@ const ChatBox = () => {
                 {Object.keys(messages).map(
                     (key: string) => {
                         if (messages[key] === undefined || messages[key] === null) return null
+                        if (messages[key].content === undefined || messages[key].content === null) return null
+
                         return (
                             <Box
                                 key={key}
@@ -137,8 +150,9 @@ const ChatBox = () => {
                                 width='fit-content'
                                 px='5'
                                 py='2'
+                                ml={messages[key].byU ? 'auto' : '0'}
                             >
-                                {messages[key]}
+                                {messages[key].content}
                             </Box>
                         )
                     }
