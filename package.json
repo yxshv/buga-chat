@@ -21,6 +21,7 @@
     "react-dom": "18.1.0",
     "react-icons": "^4.3.1",
     "react-use-websocket": "3.0.0",
+    "tabler-icons-react": "^1.48.0",
     "ws": "^8.6.0"
   },
   "devDependencies": {

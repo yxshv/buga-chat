@@ -4,12 +4,14 @@ import {
     IconButton, 
     Input, 
     InputGroup,
-    InputRightElement
+    InputRightElement,
+    InputLeftElement
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineSend } from 'react-icons/ai';
 import { BACKEND } from "../backend";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { Microphone, MicrophoneOff } from 'tabler-icons-react';
 
 interface Messages {
     [key: string]: msg;
@@ -21,7 +23,7 @@ interface msg {
 }
 
 const banned_words = [
-    "sex", "cum", "fuck", "bitch", "porn"
+    "sex", "cum", "fuck", "bitch", "porn", "penis", "dick"
 ]
 
 function getUID() {
@@ -33,6 +35,7 @@ const ChatBox = () => {
     const [messages, setMessages] = useState<Messages>({});
     const [msg, setMsg] = useState<string>('');
     const DiV = useRef<any>(null);
+    const [mute, setMute] = useState<boolean>(false);
 
     const { sendMessage, lastMessage, readyState} = useWebSocket(`wss://${BACKEND}/ws`);
 
@@ -95,10 +98,12 @@ const ChatBox = () => {
                         }
                     }
                 });
+                if (mute) return
                 (new Audio('ping.mp3')).play();
             }
             huh(lastMessage?.data);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[lastMessage])
     
     function Send() {
@@ -114,6 +119,16 @@ const ChatBox = () => {
         newMessage(msg, true);
         setMsg('')
     }
+
+    useEffect(() => {
+        if (localStorage.mute === 'true') {
+            setMute(true)
+        }
+    },[])
+
+    useEffect(() => {
+        localStorage.mute = mute
+    },[mute])
 
     return (
         <Box
@@ -162,6 +177,17 @@ const ChatBox = () => {
             <InputGroup
                 size='lg'
             >
+                <InputLeftElement onClick={() => setMute((prev : boolean) => !prev)}>
+                    <IconButton
+                        as={mute ? MicrophoneOff : Microphone}
+                        aria-label='Send'
+                        colorScheme='none'
+                        size="xs"
+                        color='white'
+                        cursor='pointer'
+                    />
+                </InputLeftElement>
+
                 <Input
                     placeholder="Type a message..."
                     border='none'
