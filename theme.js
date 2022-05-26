@@ -5,11 +5,13 @@ const theme = extendTheme({
     styles : {
         global : props => ({
             body: {
-                bg : mode('white', 'gray.800')(props)
+                bg : 'gray.800',
+                color : 'white',
             }
         })
     },
-    initialColorMode : 'dark'
+    initialColorMode : 'dark',
+    useSystemColorMode: false,
 })
 
 export default theme;

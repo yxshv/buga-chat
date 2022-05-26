@@ -24,7 +24,7 @@ const ChatBox = () => {
     const [messages, setMessages] = useState<Messages>({});
     const [msg, setMsg] = useState<string>('');
 
-    const { sendMessage, lastMessage, readyState} = useWebSocket(`ws://${BACKEND}/ws`);
+    const { sendMessage, lastMessage, readyState} = useWebSocket(`wss://${BACKEND}/ws`);
 
     function deleteMessage(id:string) {
         setMessages((prev) => {
