@@ -15,6 +15,10 @@ interface Messages {
     [key: string]: string;
 }
 
+const banned_words = [
+    "sex", "cum", "fuck", "bitch", "porn"
+]
+
 function getUID() {
     return Date.now().toString()
 }
@@ -78,13 +82,17 @@ const ChatBox = () => {
             newMessage(lastMessage?.data);
         }
     },[lastMessage])
-
-
     
     function Send() {
         console.log(connectionStatus)
         if (msg.length < 1 || connectionStatus !== 'Open' || msg === undefined || msg === null) return
-        console.log('send', msg)
+        
+        for (const a in banned_words) {
+            if (msg.toLowerCase().includes(banned_words[a])) {
+                alert("fuk u\n NEver gonna give u up. never gonna let u down")
+                return
+            }
+        }
         sendMessage(msg);
         newMessage(msg);
         setMsg('')
