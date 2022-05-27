@@ -10,7 +10,7 @@
 ### Installation
 ```
 git clone https://github.com/kekda-py/buga-chat
-cd buga-cjat
+cd buga-chat
 yarn
 ```
 
