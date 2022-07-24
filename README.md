@@ -10,11 +10,15 @@
 ### Installation
 ```
 git clone https://github.com/kekda-py/buga-chat
-cd buga-cjat
+cd buga-chat
 yarn
 ```
 
 ### Usage
+
+First run the [backend](https://github.com/kekda-py/buga-backend/)
+and add a env variable `NEXT_PUBLIC_BACKEND_URL` with the backend url
+
 For developement
 ```
 yarn dev

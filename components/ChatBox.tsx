@@ -11,7 +11,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineSend } from 'react-icons/ai';
 import { BACKEND } from "../backend";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { Microphone, MicrophoneOff } from 'tabler-icons-react';
+import { Volume, VolumeOff} from 'tabler-icons-react';
 
 interface Messages {
     [key: string]: msg;
@@ -179,7 +179,7 @@ const ChatBox = () => {
             >
                 <InputLeftElement onClick={() => setMute((prev : boolean) => !prev)}>
                     <IconButton
-                        as={mute ? MicrophoneOff : Microphone}
+                        as={mute ? VolumeOff : Volume}
                         aria-label='Send'
                         colorScheme='none'
                         size="xs"
